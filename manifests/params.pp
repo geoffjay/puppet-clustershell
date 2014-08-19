@@ -39,25 +39,25 @@ class clustershell::params {
     undef   => false,
     default => $::clustershell_install_vim_syntax,
   }
-  if is_string() {
+  if is_string($install_vim_syntax) {
     $safe_install_vim_syntax = str2bool($install_vim_syntax)
   } else {
     $safe_install_vim_syntax = $install_vim_syntax
   }
 
   case $::osfamily {
-    'RedHat' {
+    redhat: {
       $package_name     = 'clustershell'
       $vim_package_name = 'vim-clustershell'
 
       $clush_config     = '/etc/clustershell/clush.conf'
-      $clush_template   = 'clustershell/clush.erb'
+      $clush_template   = 'clustershell/clush.conf.erb'
 
       $groups_config    = '/etc/clustershell/groups.conf'
-      $groups_template  = 'clustershell/groups.erb'
+      $groups_template  = 'clustershell/groups.conf.erb'
     }
-  }
-  default: {
-    fail("Module ${module} is not support on ${::osfamily}")
+    default: {
+      fail("Module ${module} is not support on ${::osfamily}")
+    }
   }
 }

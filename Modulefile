@@ -1,4 +1,4 @@
-name 'puppet-clustershell'
+name 'geoffjay-clustershell'
 version '0.1.0'
 source 'git://github.com/geoffjay/puppet-clustershell.git'
 author 'geoffjay'
