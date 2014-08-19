@@ -1,4 +1,4 @@
-puppet-clusterssh
-=================
+Puppet module for managing ClusterShell
+=======================================
 
-Puppet module for installing and configuring ClusterSSH
+Installs and configures ClusterShell
