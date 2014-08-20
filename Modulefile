@@ -1,5 +1,5 @@
 name 'geoffjay-clustershell'
-version '0.1.2'
+version '0.1.3'
 source 'git://github.com/geoffjay/puppet-clustershell.git'
 author 'geoffjay'
 license 'GPLv2+'
