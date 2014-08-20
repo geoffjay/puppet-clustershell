@@ -1,0 +1,9 @@
+###
+### File managed by puppet
+###
+
+<% if @groups.any? -%>
+<% @groups.each do |group| -%>
+<%= group %>
+<% end -%>
+<% end -%>

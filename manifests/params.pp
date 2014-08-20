@@ -28,13 +28,79 @@ class clustershell::params {
     default => $::clustershell_groups,
   }
 
+  $fanout = $::clustershell_fanout ? {
+    undef   => 64,
+    default => $clustershell_fanout,
+  }
+
+  $connect_timeout = $::clustershell_connect_timeout ? {
+    undef   => 15,
+    default => $clustershell_connect_timout,
+  }
+
+  $command_timeout = $::clustershell_command_timeout ? {
+    undef   => 0,
+    default => $clustershell_command_timeout,
+  }
+
+  $color = $::clustershell_color ? {
+    undef   => 'auto',
+    default => $clustershell_color,
+  }
+
+  $fd_max = $::clustershell_fd_max ? {
+    undef   => 16384,
+    default => $clustershell_fd_max,
+  }
+
+  $history_size = $::clustershell_history_size ? {
+    undef   => 100,
+    default => $clustershell_history_size,
+  }
+
+  $node_count = $::clustershell_node_count ? {
+    undef   => 'yes',
+    default => $clustershell_node_count,
+  }
+
+  $verbosity = $::clustershell_verbosity ? {
+    undef   => '1',
+    default => $clustershell_verbosity,
+  }
+
+  # if top scope variable is a string, might need to convert to boolean
+  $ssh_enable = $::clustershell_ssh_enable ? {
+    undef   => false,
+    default => $::clustershell_ssh_enable,
+  }
+  if is_string($ssh_enable) {
+    $safe_ssh_enable = str2bool($ssh_enable)
+  } else {
+    $safe_ssh_enable = $ssh_enable
+  }
+
+  $ssh_user = $::clustershell_ssh_user ? {
+    undef   => 'root',
+    default => $clustershell_ssh_user,
+  }
+
+  $ssh_path = $::clustershell_ssh_path ? {
+    undef   => '/usr/bin/ssh',
+    default => $clustershell_ssh_path,
+  }
+
+  $ssh_options = $::clustershell_ssh_options ? {
+    undef   => '-oStrictHostKeyChecking=no',
+    default => $clustershell_ssh_options,
+  }
+
   # Following parameters should not be changed.
   $ensure = $::clustershell_ensure ? {
     undef   => 'present',
     default => $::clustershell_ensure,
   }
 
-  # The top scope variable could be a string, might need to convert to boolean.
+  # if top scope variable is a string, might need to convert to boolean
   $install_vim_syntax = $::clustershell_install_vim_syntax ? {
     undef   => false,
     default => $::clustershell_install_vim_syntax,
@@ -47,14 +113,17 @@ class clustershell::params {
 
   case $::osfamily {
     redhat: {
-      $package_name     = 'clustershell'
-      $vim_package_name = 'vim-clustershell'
+      $package_name         = 'clustershell'
+      $vim_package_name     = 'vim-clustershell'
 
-      $clush_config     = '/etc/clustershell/clush.conf'
-      $clush_template   = 'clustershell/clush.conf.erb'
+      $clush_conf           = '/etc/clustershell/clush.conf'
+      $clush_conf_template  = 'clustershell/clush.conf.erb'
 
-      $groups_config    = '/etc/clustershell/groups.conf'
-      $groups_template  = 'clustershell/groups.conf.erb'
+      $groups_config        = '/etc/clustershell/groups'
+      $groups_template      = 'clustershell/groups.erb'
+
+      $groups_conf          = '/etc/clustershell/groups.conf'
+      $groups_conf_template = 'clustershell/groups.conf.erb'
     }
     default: {
       fail("Module ${module} is not support on ${::osfamily}")
