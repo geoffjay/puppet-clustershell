@@ -122,7 +122,7 @@ class clustershell (
   $install_vim_syntax   = $clustershell::params::install_vim_syntax,
   $vim_package_name     = $clustershell::params::vim_package_name,
   $clush_conf           = $clustershell::params::clush_conf,
-  $clush_conf_template  = $clustershell::params::clush_template,
+  $clush_conf_template  = $clustershell::params::clush_conf_template,
   $groups_config        = $clustershell::params::groups_config,
   $groups_template      = $clustershell::params::groups_template,
   $groups_conf          = $clustershell::params::groups_conf,
@@ -130,6 +130,7 @@ class clustershell (
 ) inherits clustershell::params {
 
   # Validate booleans
+  validate_bool($ssh_enable)
   validate_bool($install_vim_syntax)
 
   # Validate arrays

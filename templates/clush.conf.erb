@@ -3,14 +3,16 @@
 ###
 
 [Main]
-fanout: <%= $fanout %>
-connect_timeout: <%= $connect_timeout %>
-command_timeout: <%= $command_timeout %>
-color: <%= $color %>
-fd_max: <%= $fd_max %>
-history_size: <%= $history_size %>
-node_count: <%= $node_count %>
-verbosity: <%= $verbosity %>
-<%= ssh_enable? ? "#" : "" %>">ssh_user: <%= $ssh_user %>
-<%= ssh_enable? ? "#" : "" %>">ssh_path: <%= $ssh_path %>
-<%= ssh_enable? ? "#" : "" %>">ssh_options: <%= $ssh_options %>
+fanout: <%= @fanout %>
+connect_timeout: <%= @connect_timeout %>
+command_timeout: <%= @command_timeout %>
+color: <%= @color %>
+fd_max: <%= @fd_max %>
+history_size: <%= @history_size %>
+node_count: <%= @node_count %>
+verbosity: <%= @verbosity %>
+<% if @ssh_enable -%>
+ssh_user: <%= @ssh_user %>
+ssh_path: <%= @ssh_path %>
+ssh_options: <%= @ssh_options %>
+<% end -%>
