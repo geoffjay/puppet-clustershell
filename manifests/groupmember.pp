@@ -5,7 +5,7 @@ define clustershell::groupmember (
 ) {
   $group_concat_file = "${clustershell::groups_concat_dir}/${group}"
 
-  concat::fragment { "groupmember-${member}":
+  concat::fragment { "groupmember-${group}-${member}":
     ensure  => present,
     order   => 02,
     target  => $group_concat_file,
