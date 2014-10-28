@@ -13,21 +13,6 @@
 
 class clustershell::params {
 
-  # If there is a top scope variable defined use it, otherwise use a
-  # hard-code value.
-  $groups = $::clustershell_groups ? {
-    undef   => [
-      'adm: example0',
-      'oss: example4 example5',
-      'mds: example6',
-      'io: example[4-6]',
-      'compute: example[32-159]',
-      'gpu: example[156-159]',
-      'all: example[4-6,32-159]',
-    ],
-    default => $::clustershell_groups,
-  }
-
   $fanout = $::clustershell_fanout ? {
     undef   => 64,
     default => $clustershell_fanout,
@@ -120,7 +105,19 @@ class clustershell::params {
       $clush_conf_template  = 'clustershell/clush.conf.erb'
 
       $groups_config        = '/etc/clustershell/groups'
-      $groups_template      = 'clustershell/groups.erb'
+      $groups_concat_dir    = '/etc/clustershell/tmp'
+
+      $groups_conf          = '/etc/clustershell/groups.conf'
+      $groups_conf_template = 'clustershell/groups.conf.erb'
+    }
+    debian: {
+      $package_name         = 'clustershell'
+
+      $clush_conf           = '/etc/clustershell/clush.conf'
+      $clush_conf_template  = 'clustershell/clush.conf.erb'
+
+      $groups_config        = '/etc/clustershell/groups'
+      $groups_concat_dir    = '/etc/clustershell/tmp'
 
       $groups_conf          = '/etc/clustershell/groups.conf'
       $groups_conf_template = 'clustershell/groups.conf.erb'

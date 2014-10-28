@@ -4,12 +4,6 @@
 #
 # ==== Parameters:
 #
-# TODO finish
-#
-# [*groups*]
-#   An array of groups used by clustershell programs.
-#   Default: []
-#
 # [*fanout*]
 #   ...
 #   Default: 64
@@ -104,7 +98,6 @@
 #
 
 class clustershell (
-  $groups               = $clustershell::params::groups,
   $fanout               = $clustershell::params::fanout,
   $connect_timeout      = $clustershell::params::connect_timeout,
   $command_timeout      = $clustershell::params::command_timeout,
@@ -124,7 +117,7 @@ class clustershell (
   $clush_conf           = $clustershell::params::clush_conf,
   $clush_conf_template  = $clustershell::params::clush_conf_template,
   $groups_config        = $clustershell::params::groups_config,
-  $groups_template      = $clustershell::params::groups_template,
+  $groups_concat_dir    = $clustershell::params::groups_concat_dir,
   $groups_conf          = $clustershell::params::groups_conf,
   $groups_conf_template = $clustershell::params::groups_conf_template,
 ) inherits clustershell::params {
@@ -132,9 +125,6 @@ class clustershell (
   # Validate booleans
   validate_bool($ssh_enable)
   validate_bool($install_vim_syntax)
-
-  # Validate arrays
-  validate_array($groups)
 
   case $ensure {
     /(present)/: {
@@ -171,17 +161,6 @@ class clustershell (
     }
   }
 
-  file { $groups_config:
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    require => Package['clustershell'],
-    content => $inline_template ? {
-      '' => template($groups_template),
-      default => inline_template("${inline_template}\n"),
-    }
-  }
-
   file { $groups_conf:
     owner   => 'root',
     group   => 'root',
@@ -191,5 +170,20 @@ class clustershell (
       '' => template($groups_conf_template),
       default => inline_template("${inline_template}\n"),
     }
+  }
+
+  file { $groups_concat_dir:
+    ensure  => 'directory',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0700',
+    require => Package['clustershell'],
+  }
+
+  # Declare concat
+  concat { $groups_config:
+    ensure         => present,
+    require        => File[$groups_concat_dir],
+    ensure_newline => true,
   }
 }
