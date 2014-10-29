@@ -17,10 +17,10 @@
     }
   ],
   "name": "geoffjay-clustershell",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": "geoffjay",
   "summary": "clustershell installation and configuration",
-  "license": "GPLv2+",
+  "license": "LGPLv3+",
   "source": "git://github.com/geoffjay/puppet-clustershell.git",
   "project_page": "http://github.com/geoffjay/puppet-clustershell",
   "issues_url": "https://github.com/geoffjay/puppet-clustershell/issues",
