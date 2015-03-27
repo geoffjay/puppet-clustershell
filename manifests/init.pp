@@ -156,7 +156,8 @@ class clustershell (
     mode    => '0644',
     require => Package['clustershell'],
     content => $inline_template ? {
-      '' => template($clush_conf_template),
+      undef   => template($clush_conf_template),
+      ''      => template($clush_conf_template),
       default => inline_template("${inline_template}\n"),
     }
   }
@@ -167,7 +168,8 @@ class clustershell (
     mode    => '0644',
     require => Package['clustershell'],
     content => $inline_template ? {
-      '' => template($groups_conf_template),
+      undef   => template($groups_conf_template),
+      ''      => template($groups_conf_template),
       default => inline_template("${inline_template}\n"),
     }
   }
